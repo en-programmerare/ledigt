@@ -7,13 +7,14 @@
     </head>
     <body>
         Starttid: <input type="time" id="starttid"><br>
-        Sluttid: <input type="time" id="sluttid">
+        Sluttid: <input type="time" id="sluttid"><br>
         <output id="skummaTider" style="display: none;">Sluttiden måste vara senare än starttiden.</output>
 
         <h1>Lediga salar</h1>
         <ul id="resultat">
-            <li>Hämtar schemat från Timeedit.</li>
         </ul>
+        <p id="laddar" style="display:none;">Hämtar data från Timeedit...</p>
+        <p id="fel" style="display:none;">Ett fel har uppstått.</p>
 
         <script type="module"> 
         const CALENDAR_URL = "https://cloud.timeedit.net/uu/web/wr_student/ri62wQvuw63Z%C3%B6bQ5YF857nbgypZapY%C3%A4%C3%B6rbG%C3%85Y5cQgY47bYwaujaYYbQ%C3%A4r5UwjyeudLpuvwt5QaaZY6wuZYbm0Yurndbxyxnbea86Zj504ZD2960QEEt40F530C2t1A82910DB5054BF00Qd0A9C78.ics";
@@ -56,16 +57,33 @@
         id("sluttid").addEventListener("change", userChangedTimes);
 
         function userChangedTimes() {
-            updateTimes();
-            let freeMap = findFreeRooms();
-            present(freeMap);
+            id("laddar").style.display = "block";
+            id("fel").style.display = "none";
+            try {
+                updateTimes();
+                let freeMap = findFreeRooms();
+                present(freeMap);
+            }
+            catch (exc) {
+                console.error("Följande undantag gav upphov till felet", exc);
+                id("laddar").style.display = "none";
+                id("fel").style.display = "block";
+            }
         }
 
         async function prepare() {
-            await load();
-            updateTimes();
-            let freeMap = findFreeRooms();
-            present(freeMap);
+            id("laddar").style.display = "block";
+            try {
+                await load();
+                updateTimes();
+                let freeMap = findFreeRooms();
+                present(freeMap);
+            }
+            catch (exc) {
+                console.error("Följande undantag gav upphov till felet", exc);
+                id("laddar").style.display = "none";
+                id("fel").style.display = "block";
+            }
         }
 
         async function load() {
@@ -75,6 +93,8 @@
                 return;
 
             const icalText = await result.text();
+
+            console.log(ICAL.parse(icalText));
 
             const calendar = new ICAL.Component(ICAL.parse(icalText));
             const events = calendar.getAllSubcomponents("vevent").map(eventComponent => new ICAL.Event(eventComponent));
@@ -125,10 +145,10 @@
 
             if (startDate.compare(endDate) > 0) {
                 id("skummaTider").style.display = "inline";
+                id("laddar").style.display = "none";
                 return;
             }
             id("skummaTider").style.display = "none";
-            
 
             startTime = startDate;
             endTime = endDate;
@@ -159,10 +179,6 @@
                 if (outsideInterval)
                     continue;
 
-
-                
-                
-
                 for (let room of getRoomNumbers(event.location)) {
                     if (freeMap[room] !== undefined) {
                         freeMap[room] = false;
@@ -185,14 +201,33 @@
                     continue; //rummet är ej ledigt.
                 let li = document.createElement("li");
                 li.innerHTML = room + " " + (nicknames[room] ?? "");
+                li.onclick = () => moreInfo(room);
                 id("resultat").appendChild(li);
             }
+            id("laddar").style.display = "none";
         }
 
+        function moreInfo(room) {
+            alert("Mer information om " + room);
+        }
+
+
         let now = new Date();
-        id("starttid").value = now.toTimeString().match(/\d\d/) + ":15";
-        id("sluttid").value = "17:00";
+        let hourString = now.toTimeString().match(/\d\d/);
+        id("starttid").value = hourString + ":15";
+        let hour = Number(hourString);
+        if (hour < 12)
+            id("sluttid").value = "12:00";
+        else if (hour < 13)
+            id("sluttid").value = "13:14";
+        else if (hour < 15)
+            id("sluttid").value = "15:00";
+        else if (hour < 22)
+            id("sluttid").value = "22:00";
+        else
+            id("sluttid").value = "23:59";
         prepare(); 
+
         </script>
     </body>
 </html>
