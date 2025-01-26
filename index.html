@@ -4,17 +4,27 @@
         <title>Lediga salar</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css" type="text/css" media="all">
     </head>
     <body>
-        Starttid: <input type="time" id="starttid"><br>
-        Sluttid: <input type="time" id="sluttid"><br>
-        <output id="skummaTider" style="display: none;">Sluttiden måste vara senare än starttiden.</output>
-
         <h1>Lediga salar</h1>
-        <ul id="resultat">
-        </ul>
-        <p id="laddar" style="display:none;">Hämtar data från Timeedit...</p>
-        <p id="fel" style="display:none;">Ett fel har uppstått.</p>
+        <div class="settings">
+            Jag vill hitta en sal som är ledig mellan <input type="time" id="starttid"> och <input type="time" id="sluttid">.<br>
+            <output id="skummaTider">Sluttiden måste vara senare än starttiden.</output>
+        </div>
+        <div id="resultat">
+        </div>
+        <p id="laddar">Hämtar data från Timeedit...</p>
+        <p id="fel">Ett fel har uppstått.</p>
+
+        <dialog id="roomInfoDialog">
+            <h2><button type="button" id="close">↩️</button> <output id="detailedRoomName"></output></h2>
+            <div class="mazemapwrap">
+                <iframe id="mazemapIframe"></iframe>
+            </div>
+        </dialog>
+
+        <noscript>Sidan fungerar inte utan Javascript. Aktivera Javascript i din webbläsares inställningar.</noscript>
 
         <script type="module" src="script.js"> 
         </script>

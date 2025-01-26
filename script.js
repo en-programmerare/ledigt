@@ -1,7 +1,8 @@
 let worker = new Worker("worker.js", {type: "module"});
 let schedule = [];
+let firstLoad = true;
 
-const nicknames = {
+const names = {
     10134: "Polhemsalen",
     10132: "Häggsalen",
     10101: "Siegbahnsalen",
@@ -10,10 +11,20 @@ const nicknames = {
     101121: "Sonja Lyttkens",
     101136: "Evelyn Sokolowski"
 };
+const nicknames = {
+    10134: "Polhem",
+    10132: "Hägg",
+    10101: "Sigge",
+    100195: "Eva",
+    101195: "Heinz",
+    101121: "Sonja",
+    101136: "Evelyn"
+}
 setStandardTimes();
 
 id("starttid").addEventListener("change", findFreeRooms);
 id("sluttid").addEventListener("change", findFreeRooms);
+id("close").addEventListener("click", closeDialog);
 
 worker.onmessage = (message) => {
     console.log("Resultat", message.data);
@@ -50,7 +61,10 @@ function findFreeRooms() {
 worker.onerror = (err) => console.log(err);
 
 id("laddar").style.display = "block";
+
+
 worker.postMessage(["fetch"]);
+//worker.postMessage(["test"]);
 
 
 function error() {
@@ -68,14 +82,24 @@ function id(id) {
 function present(freeMap) {
     id("resultat").replaceChildren();
 
+    let i = 0;
     for (let room in freeMap) {
         if (!freeMap[room])
             continue; //rummet är ej ledigt.
-        let li = document.createElement("li");
-        li.innerHTML = room + " " + (nicknames[room] ?? "");
+        let li = document.createElement("div");
+        li.classList.add("room");
+        if (firstLoad) {
+            li.classList.add("animated");
+            li.style.animationDelay = String(i * 10) + "ms";
+        }
+
+        li.innerHTML = nicknames[room] ?? room;
+        li.onclick = () => infoOfRoom(room);
         id("resultat").appendChild(li);
+        i++;
     }
     id("laddar").style.display = "none";
+    firstLoad = false;
 }
 
 function setStandardTimes() {
@@ -93,4 +117,16 @@ function setStandardTimes() {
         id("sluttid").value = "22:00";
     else
         id("sluttid").value = "23:59";
+}
+
+function infoOfRoom(number) {
+    let title = String(number);
+    if (names[number] !== undefined)
+        title = names[number] + ", " + title;
+    id("detailedRoomName").innerHTML = title;
+    id("mazemapIframe").src = "https://use.mazemap.com/embed.html?v=1&campusid=49&campuses=uu&sharepoitype=identifier&sharepoi=%C3%85ngstr%C3%B6m-" + number;
+    id("roomInfoDialog").open = true;
+}
+function closeDialog() {
+    id("roomInfoDialog").open = false;
 }

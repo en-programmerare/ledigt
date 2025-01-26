@@ -1,0 +1,96 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #0e0f13;
+    color: white;
+}
+
+#laddar {
+    display: none;
+}
+#fel {
+    display: none;
+}
+#skummaTider {
+    display: none;
+}
+
+input[type="time"] {
+    background-color: #0e0f13;
+    color: white;
+    font-size: 18px;
+    border-color: white;
+    border-radius: 3px;
+}
+
+#resultat {
+    display: grid;
+    gap: 5px 5px;
+    grid-template-columns: repeat(auto-fill, 105px);
+    justify-content: space-around;
+
+}
+
+.room {
+    background-color: #eaa6ec;
+    color: black;
+    font-size: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px;
+    width: 80px;
+    text-align: center;
+    border: hidden;
+    transition-property: transform;
+    transition-duration: 10ms;
+    transition-timing-function: ease-in-out;
+    
+}
+.animated {
+    animation-name: appear;
+    animation-duration: 500ms;
+    animation-fill-mode: backwards;
+}
+.room:hover {
+    transform: scale(1.05);
+}
+
+dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: hidden;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: #0e0f13;
+    color: white;
+}
+.mazemapwrap {
+    width: 95%;
+    height: 85%;
+    position: fixed;
+}
+.mazemapwrap iframe {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+#close {
+    font-size: 35px;
+    border: hidden;
+    background-color: inherit;
+}
+
+@keyframes appear {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
