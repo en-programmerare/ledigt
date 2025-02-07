@@ -1,3 +1,4 @@
+const TEST = false;
 let worker = new Worker("worker.js", {type: "module"});
 let schedule = [];
 let firstLoad = true;
@@ -48,9 +49,9 @@ worker.onmessage = (message) => {
 };
 
 function findFreeRooms() {
-    id("laddar").style.display = "block";
     id("fel").style.display = "none";
     id("skummaTider").style.display = "none";
+    id("upptaget").style.display = "none";
     const start = id("starttid").value;
     const end = id("sluttid").value;
     worker.postMessage(["find", start, end]);
@@ -63,13 +64,17 @@ worker.onerror = (err) => console.log(err);
 id("laddar").style.display = "block";
 
 
-worker.postMessage(["fetch"]);
-//worker.postMessage(["test"]);
+
+if (TEST)
+    worker.postMessage(["test"]);
+else
+    worker.postMessage(["fetch"]);
 
 
 function error() {
     document.querySelector("#fel").style.display = "block";
     document.querySelector("#laddar").style.display = "none";
+    id("upptaget").style.display = "none";
 }
 
 function id(id) {
@@ -100,6 +105,11 @@ function present(freeMap) {
     }
     id("laddar").style.display = "none";
     firstLoad = false;
+
+    if (i == 0) { //inga rum lediga
+        id("upptaget").style.display = "block";
+        firstLoad = true; //spela animationen om du hittar lediga rum
+    }
 }
 
 function setStandardTimes() {

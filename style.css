@@ -13,6 +13,9 @@ body {
 #skummaTider {
     display: none;
 }
+#upptaget {
+    display: none;
+}
 
 input[type="time"] {
     background-color: #0e0f13;
@@ -27,7 +30,7 @@ input[type="time"] {
     gap: 5px 5px;
     grid-template-columns: repeat(auto-fill, 105px);
     justify-content: space-around;
-
+    padding-top: 10px;
 }
 
 .room {

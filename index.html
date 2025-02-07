@@ -4,7 +4,9 @@
         <title>Lediga salar</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Tar reda på vilka salar som är lediga på Ångströmlaboratoriet, så att man kan hitta någonstans att plugga.">
         <link rel="stylesheet" href="style.css" type="text/css" media="all">
+        <link rel="icon" href="angan.ico">
     </head>
     <body>
         <h1>Lediga salar</h1>
@@ -12,10 +14,12 @@
             Jag vill hitta en sal som är ledig mellan <input type="time" id="starttid"> och <input type="time" id="sluttid">.<br>
             <output id="skummaTider">Sluttiden måste vara senare än starttiden.</output>
         </div>
-        <div id="resultat">
-        </div>
         <p id="laddar">Hämtar data från Timeedit...</p>
         <p id="fel">Ett fel har uppstått.</p>
+        <p id="upptaget">Inga salar lediga.</p>
+        <div id="resultat">
+        </div>
+        
 
         <dialog id="roomInfoDialog">
             <h2><button type="button" id="close">↩️</button> <output id="detailedRoomName"></output></h2>
@@ -24,7 +28,7 @@
             </div>
         </dialog>
 
-        <noscript>Sidan fungerar inte utan Javascript. Aktivera Javascript i din webbläsares inställningar.</noscript>
+        <noscript>Sidan fungerar inte utan Javascript. Pröva att aktivera Javascript i din webbläsares inställningar.</noscript>
 
         <script type="module" src="script.js"> 
         </script>
