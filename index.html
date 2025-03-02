@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
     <head>
         <title>Lediga salar</title>
         <meta charset="utf-8">
@@ -10,11 +10,14 @@
     </head>
     <body>
         <h1>Lediga salar</h1>
-        <div class="settings">
-            Jag vill hitta en sal som är ledig mellan <input type="time" id="starttid"> och <input type="time" id="sluttid">.<br>
+        <form class="settings">
+            <label for="starttid">Jag vill hitta en sal som är ledig mellan </label>
+            <input name="starttid" type="time" id="starttid">
+            <label for="sluttid"> och </label>
+            <input name="sluttid" type="time" id="sluttid">.<br>
             <output id="skummaTider">Sluttiden måste vara senare än starttiden.</output>
-        </div>
-        <p id="laddar">Hämtar data från Timeedit...</p>
+        </form>
+        <p id="laddar">Hämtar data från Timeedit<output class="animeradLaddning">...</output></p>
         <p id="fel">Ett fel har uppstått.</p>
         <p id="upptaget">Inga salar lediga.</p>
         <div id="resultat">
