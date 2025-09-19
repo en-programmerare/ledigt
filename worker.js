@@ -12,7 +12,7 @@ const rooms = [
     80101, 80109, 80115, 80121, 80127, 80412, //hus 8
     90101, 90102, 90103, 90104, 90106, 90403, 90402, 90403, 90409,//hus 9
     100195, //Eva von Bahr
-    
+    10101
 ];
 let schedule = [];
 let scheduleExists = false;
